@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Belgeler
+model Document {
+  id              String          @id @default(uuid())
+  title           String
+  documentNumber  String          @unique
+  documentType    String          // 'certificate', 'official', 'commercial', 'legal'
+  
+  // PDF Bilgileri
+  fileUrl         String
+  fileSize        Int             // bytes
+  fileHash        String          @unique // SHA-256
+  pageCount       Int
+  thumbnailUrl    String?
+  
+  // Metadata
+  createdAt       DateTime        @default(now())
+  createdBy       String?
+  organizationId  String?
+  expiresAt       DateTime?
+  
+  // Güvenlik
+  isActive        Boolean         @default(true)
+  allowDownload   Boolean         @default(false)
+  accessPassword  String?         // Opsiyonel şifre
+  
+  // Doğrulama
+  digitalSignature Boolean        @default(false)
+  verificationCount Int           @default(0)
+  lastVerifiedAt  DateTime?
+  
+  // QR Kod
+  qrCodeUrl       String?
+  qrToken         String?
+  
+  // İlişkiler
+  accessLogs      AccessLog[]
+  
+  @@index([fileHash])
+  @@index([documentType])
+  @@index([isActive])
+}
+
+// Erişim Logları
+model AccessLog {
+  id          String   @id @default(uuid())
+  documentId  String
+  document    Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  accessedAt  DateTime @default(now())
+  ipAddress   String?
+  userAgent   String?
+  location    String?
+  action      String    // 'viewed', 'downloaded', 'verified'
+  
+  @@index([documentId])
+  @@index([accessedAt])
+}
+
+// Organizasyonlar (Opsiyonel)
+model Organization {
+  id          String   @id @default(uuid())
+  name        String
+  logoUrl     String?
+  themeColors String?   // JSON formatında
+  customCss   String?
+  createdAt   DateTime @default(now())
+  
+  documents   Document[]
+}
