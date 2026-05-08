@@ -5,6 +5,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
 // Belgeler
 model Document {
   id              String          @id @default(uuid())
@@ -41,6 +46,7 @@ model Document {
   
   // İlişkiler
   accessLogs      AccessLog[]
+  organization    Organization?   @relation(fields: [organizationId], references: [id], onDelete: SetNull)
   
   @@index([fileHash])
   @@index([documentType])
