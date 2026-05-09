@@ -4,10 +4,10 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ documentId: string }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { documentId } = await params;
+    const { id } = await params;
     const token = request.nextUrl.searchParams.get('token');
 
     // Token doğrulama
@@ -19,7 +19,7 @@ export async function GET(
     }
 
     const documentIdFromToken = await verifyDocumentToken(token);
-    if (!documentIdFromToken || documentIdFromToken !== documentId) {
+    if (!documentIdFromToken || documentIdFromToken !== id) {
       return NextResponse.json(
         { error: 'Geçersiz token' },
         { status: 401 }
@@ -28,7 +28,7 @@ export async function GET(
 
     // Belgeyi bul
     const document = await prisma.document.findUnique({
-      where: { id: documentId },
+      where: { id },
     });
 
     if (!document || !document.isActive) {
