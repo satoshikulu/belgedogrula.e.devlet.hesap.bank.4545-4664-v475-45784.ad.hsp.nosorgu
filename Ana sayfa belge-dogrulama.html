@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Belge Doğrulama - turkiye.gov.tr</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+    background: #e8e8e8;
+    color: #333;
+    min-height: 100vh;
+  }
+
+  /* ── TOP NAV ── */
+  .top-nav {
+    background: linear-gradient(180deg, #1a8fd1 0%, #0068a8 100%);
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  /* Pill-shaped logo container — exact match to screenshot */
+  .logo-pill {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 28px;
+    padding: 5px 14px 5px 6px;
+    gap: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    text-decoration: none;
+  }
+
+  /* Red circular emblem */
+  .emblem {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+  }
+
+  .logo-wordmark {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+
+  .logo-wordmark .wm-top {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0068a8;
+    letter-spacing: -0.3px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+  }
+
+  .logo-wordmark .wm-bottom {
+    font-size: 8px;
+    color: #888;
+    letter-spacing: 0.4px;
+    margin-top: 1px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+  }
+
+  .logo-text {
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Pill-shaped logo container */
+  .logo-pill {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 28px;
+    padding: 4px 14px 4px 5px;
+    gap: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.22);
+    text-decoration: none;
+    transition: box-shadow 0.2s;
+  }
+  .logo-pill:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+
+  .emblem { width: 34px; height: 34px; flex-shrink: 0; }
+
+  .logo-wordmark { display: flex; flex-direction: column; line-height: 1; }
+  .logo-wordmark .wm-top {
+    font-size: 13px;
+    font-weight: 700;
+    color: #0068a8;
+    letter-spacing: -0.2px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+  }
+  .logo-wordmark .wm-bottom {
+    font-size: 8px;
+    color: #999;
+    letter-spacing: 0.3px;
+    margin-top: 2px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+  }
+
+  .nav-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  .nav-btn:hover { background: rgba(255,255,255,0.15); }
+
+  .nav-btn svg { width: 14px; height: 14px; fill: white; }
+
+  .search-wrap {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 3px;
+    overflow: hidden;
+    height: 30px;
+  }
+
+  .search-wrap input {
+    border: none;
+    outline: none;
+    padding: 0 10px;
+    font-size: 12px;
+    width: 200px;
+    color: #555;
+  }
+
+  .search-wrap button {
+    background: transparent;
+    border: none;
+    padding: 0 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #0072bc;
+  }
+
+  .giris-btn {
+    background: white;
+    color: #0072bc;
+    border: none;
+    padding: 0 14px;
+    height: 30px;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+  }
+
+  .giris-btn:hover { background: #e8f4ff; }
+
+  /* ── BREADCRUMB ── */
+  .breadcrumb {
+    background: white;
+    padding: 6px 20px;
+    font-size: 12px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .breadcrumb a {
+    color: #0072bc;
+    text-decoration: none;
+  }
+
+  .breadcrumb a:hover { text-decoration: underline; }
+
+  .breadcrumb .home-icon {
+    color: #0072bc;
+    font-size: 14px;
+  }
+
+  .breadcrumb .sep { color: #aaa; }
+
+  /* ── MAIN LAYOUT ── */
+  .page-body {
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 0 15px;
+  }
+
+  /* ── WHITE CARD ── */
+  .main-card {
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+    overflow: hidden;
+  }
+
+  /* Card Header */
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #0072bc;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .card-logo {
+    width: 34px;
+    height: 34px;
+  }
+
+  .share-btn {
+    background: transparent;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 5px 12px;
+    font-size: 12px;
+    color: #555;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .share-btn:hover { background: #f5f5f5; }
+
+  /* Card Body */
+  .card-body {
+    display: flex;
+    gap: 0;
+  }
+
+  /* LEFT SIDEBAR */
+  .sidebar {
+    width: 230px;
+    min-width: 230px;
+    padding: 20px 16px;
+    border-right: 1px solid #e0e0e0;
+    background: #fafafa;
+  }
+
+  .sidebar-info {
+    font-size: 12px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .clock-icon {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 14px 0 6px;
+    color: #555;
+    font-size: 12px;
+  }
+
+  .clock-icon svg {
+    width: 20px;
+    height: 20px;
+    color: #888;
+  }
+
+  .step-info {
+    font-size: 12px;
+    color: #444;
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+
+  .step-info strong { font-weight: 700; }
+
+  .progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #ddd;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    width: 25%;
+    height: 100%;
+    background: #0072bc;
+    border-radius: 4px;
+  }
+
+  .steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .step-item {
+    padding: 7px 10px;
+    font-size: 12px;
+    border-radius: 3px;
+    color: #666;
+    background: transparent;
+    border: 1px solid transparent;
+  }
+
+  .step-item.active {
+    background: #0072bc;
+    color: white;
+    font-weight: 600;
+  }
+
+  .step-item.disabled {
+    color: #aaa;
+    background: #f0f0f0;
+    border: 1px solid #e0e0e0;
+  }
+
+  /* MAIN CONTENT */
+  .main-content {
+    flex: 1;
+    padding: 24px 28px;
+  }
+
+  /* Info bar */
+  .info-bar {
+    background: #f0f7ff;
+    border-left: 3px solid #0072bc;
+    padding: 10px 14px;
+    font-size: 12.5px;
+    color: #333;
+    margin-bottom: 20px;
+    border-radius: 0 3px 3px 0;
+  }
+
+  /* Form Section */
+  .form-section {
+    border: 1px solid #d0e8f5;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .form-section-header {
+    background: #e6f2fb;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #0072bc;
+    border-bottom: 1px solid #c8e0f0;
+  }
+
+  .form-section-body {
+    padding: 20px 18px;
+  }
+
+  .form-group {
+    margin-bottom: 6px;
+  }
+
+  .form-label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .required-star {
+    color: #c00;
+    margin-right: 2px;
+  }
+
+  .form-input {
+    width: 100%;
+    max-width: 500px;
+    height: 36px;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    padding: 0 10px;
+    font-size: 13px;
+    color: #333;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-input:focus {
+    border-color: #0072bc;
+    box-shadow: 0 0 0 2px rgba(0,114,188,0.12);
+  }
+
+  .form-hint {
+    font-size: 11px;
+    color: #777;
+    margin-top: 5px;
+  }
+
+  /* Button Row */
+  .btn-row {
+    display: flex;
+    justify-content: center;
+    padding: 18px;
+    background: #f0f7ff;
+    border-top: 1px solid #d0e8f5;
+  }
+
+  .devam-btn {
+    background: #005a9c;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 28px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.2px;
+    transition: background 0.15s;
+  }
+
+  .devam-btn:hover { background: #004a80; }
+
+  .devam-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: white;
+  }
+
+  /* ── MOBILE APP BANNER ── */
+  .app-banner {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-top: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  .app-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background: #cc0000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .app-icon svg { width: 28px; height: 28px; fill: white; }
+
+  .app-text {
+    font-size: 12.5px;
+    color: #333;
+    line-height: 1.6;
+  }
+
+  .app-links {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+  }
+
+  .app-links a {
+    color: #0072bc;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .app-links a:hover { text-decoration: underline; }
+
+  /* SVG helpers */
+  .icon { display: inline-block; vertical-align: middle; }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <div class="logo-area">
+    <a class="logo-pill" href="#">
+      <!-- Red circular emblem -->
+      <svg class="emblem" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="cp"><circle cx="20" cy="20" r="19"/></clipPath>
+        </defs>
+        <circle cx="20" cy="20" r="19" fill="#cc0000"/>
+        <!-- White crescent -->
+        <circle cx="21.5" cy="20" r="12.5" fill="white"/>
+        <circle cx="25.5" cy="20" r="9.5" fill="#cc0000"/>
+        <!-- Star (5-pointed) -->
+        <polygon points="33.5,20 32.1,24.3 28,22.6 28,17.4 32.1,15.7" fill="white"/>
+        <polygon points="33.5,20 31.2,21.6 30,19.8 31.2,18" fill="white"/>
+        <!-- Thin orbital ellipse arc -->
+        <ellipse cx="20" cy="20" rx="18" ry="7" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="0.8" transform="rotate(-30 20 20)"/>
+      </svg>
+      <div class="logo-wordmark">
+        <span class="wm-top">türkiye.gov.tr</span>
+        <span class="wm-bottom">e-Devlet Kapısı</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="nav-right">
+    <!-- Hızlı Çözüm -->
+    <button class="nav-btn">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+      Hızlı Çözüm
+    </button>
+
+    <!-- Key icon dropdown -->
+    <button class="nav-btn">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+      ▾
+    </button>
+
+    <!-- Search -->
+    <div class="search-wrap">
+      <input type="text" placeholder="Nasıl yardım edebilirim?">
+      <button>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#0072bc"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      </button>
+    </div>
+
+    <!-- Giriş Yap -->
+    <button class="giris-btn">
+      Giriş Yap
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="#0072bc"><path d="M10 17l5-5-5-5v10zm-8 5V2l4 4h8l4-4v20l-4-4H6l-4 4z" style="display:none"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <span class="home-icon">🏠</span>
+  <span class="sep">›</span>
+  <a href="#">Belge Doğrulama</a>
+</div>
+
+<!-- PAGE BODY -->
+<div class="page-body">
+  <div class="main-card">
+
+    <!-- Card Header -->
+    <div class="card-header">
+      <div class="card-title">
+        <!-- Logo circle -->
+        <svg class="card-logo" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="19" fill="#cc0000" stroke="#aa0000" stroke-width="1"/>
+          <circle cx="23" cy="20" r="13" fill="white"/>
+          <polygon points="33,20 29,23 30,18 26,16 30.5,16" fill="#cc0000"/>
+        </svg>
+        Belge Doğrulama
+      </div>
+      <button class="share-btn">
+        <!-- share icon -->
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+        Paylaş
+      </button>
+    </div>
+
+    <!-- Card Body -->
+    <div class="card-body">
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebar-info">
+          Bu hizmet barkodlu belge sahibi kurumların işbirliği ile e-Devlet Kapısı altyapısı üzerinden sunulmaktadır.
+        </div>
+
+        <div class="clock-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+
+        <div class="step-info">
+          Bu işlem için yaklaşık 3 dakikanızı ayırmalısınız.
+        </div>
+
+        <div class="step-info">
+          Bu işlem toplam 4 aşamalıdır. Şu anda <strong>1.</strong> aşamadasınız.
+        </div>
+
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
+        </div>
+
+        <div class="steps-list">
+          <div class="step-item active">1. Barkod Numarası</div>
+          <div class="step-item disabled">2. Sorgulama Alanı</div>
+          <div class="step-item disabled">3. Bilgilendirme ve Onay</div>
+          <div class="step-item disabled">4. İşlem Sonucu</div>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="main-content">
+
+        <div class="info-bar">
+          e-Devlet Kapısı üzerinden oluşturulan tüm barkodlu belgeleri burada doğrulayabilirsiniz.
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-header">Belge Doğrulama</div>
+          <div class="form-section-body">
+            <div class="form-group">
+              <label class="form-label">
+                <span class="required-star">*</span>Barkod Numarası
+              </label>
+              <input type="text" class="form-input" placeholder="">
+              <div class="form-hint">Doğrulamak istediğiniz belgeye ait barkod numarasını giriniz.</div>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="devam-btn">
+              Devam Et
+              <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            </button>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- MOBILE APP BANNER -->
+  <div class="app-banner">
+    <div class="app-icon">
+        <img src="/altlogo.png" alt="Logo" style="width:48px;height:48px;border-radius:10px;object-fit:cover;" />
+      </div>
+    <div class="app-text">
+      e-Devlet mobil uygulamasında yer alan Barkodlu Belge Doğrulama özelliği ile, belgenin üzerindeki karekod'u okutarak, belgeleri daha hızlı ve kolay bir şekilde doğrulayabilirsiniz.
+      <div class="app-links">
+        <a href="#">Android</a>
+        <span style="color:#aaa">|</span>
+        <a href="#">Apple iOS</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

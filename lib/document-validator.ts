@@ -1,5 +1,19 @@
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
+import { PDFDocument } from 'pdf-lib';
+
+/**
+ * PDF dosyasının sayfa sayısını al
+ */
+export async function getPDFPageCount(fileBuffer: Buffer): Promise<number> {
+  try {
+    const pdfDoc = await PDFDocument.load(fileBuffer);
+    return pdfDoc.getPageCount();
+  } catch (error) {
+    console.error('PDF sayfa sayısı alınamadı:', error);
+    return 1; // Hata durumunda varsayılan 1
+  }
+}
 
 /**
  * PDF dosyasının SHA-256 hash'ini oluştur

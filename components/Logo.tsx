@@ -1,4 +1,5 @@
-import { Shield } from 'lucide-react';
+import Image from 'next/image';
+import altLogo from '@/assets/altlogo.PNG';
 
 interface LogoProps {
   className?: string;
@@ -8,17 +9,17 @@ interface LogoProps {
 
 export default function Logo({ className = '', size = 'md', showText = true }: LogoProps) {
   const sizeMap = {
-    sm: { icon: 'w-6 h-6', text: 'text-lg', container: 'w-8 h-8' },
-    md: { icon: 'w-8 h-8', text: 'text-xl', container: 'w-10 h-10' },
-    lg: { icon: 'w-12 h-12', text: 'text-2xl', container: 'w-14 h-14' },
+    sm: { container: 'w-8 h-8', text: 'text-lg' },
+    md: { container: 'w-10 h-10', text: 'text-xl' },
+    lg: { container: 'w-14 h-14', text: 'text-2xl' },
   };
 
-  const { icon: iconSize, text: textSize, container: containerSize } = sizeMap[size];
+  const { container: containerSize, text: textSize } = sizeMap[size];
 
   return (
     <div className={`flex items-center gap-3 ${className}`}>
-      <div className={`${containerSize} bg-gradient-to-br from-brand-primary to-brand-secondary rounded-lg flex items-center justify-center shadow-md`}>
-        <Shield className={`${iconSize} text-white`} strokeWidth={2.5} />
+      <div className={`${containerSize} rounded-lg flex items-center justify-center shadow-md overflow-hidden`}>
+        <Image src={altLogo} alt="Logo" className="w-full h-full object-cover" />
       </div>
       {showText && (
         <div>

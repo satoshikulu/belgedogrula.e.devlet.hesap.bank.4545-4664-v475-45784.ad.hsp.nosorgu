@@ -21,8 +21,8 @@ const caladea = Caladea({
 });
 
 export const metadata: Metadata = {
-  title: "DocVerify - Kurumsal Belge Doğrulama Sistemi",
-  description: "PDF belgeleriniz için QR kod tabanlı kurumsal doğrulama sistemi. Güvenli, izlenebilir ve profesyonel.",
+  title: "Belge Doğrulama - turkiye.gov.tr",
+  description: "e-Devlet Kapısı üzerinden oluşturulan tüm barkodlu belgeleri burada doğrulayabilirsiniz.",
   keywords: ["belge doğrulama", "PDF", "QR kod", "kurumsal", "güvenlik", "hash", "SHA-256"],
   authors: [{ name: "DocVerify" }],
   openGraph: {

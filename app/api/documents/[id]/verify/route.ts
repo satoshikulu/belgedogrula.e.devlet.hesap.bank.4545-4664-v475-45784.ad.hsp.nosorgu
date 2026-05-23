@@ -26,9 +26,13 @@ export async function GET(
       );
     }
 
-    // Belgeyi bul
-    const document = await prisma.document.findUnique({
+    // Belgeyi bul ve istatistikleri güncelle
+    const document = await prisma.document.update({
       where: { id },
+      data: {
+        verificationCount: { increment: 1 },
+        lastVerifiedAt: new Date(),
+      },
     });
 
     if (!document || !document.isActive) {

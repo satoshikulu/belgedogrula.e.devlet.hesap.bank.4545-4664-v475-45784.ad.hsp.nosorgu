@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { put } from '@vercel/blob';
-import { generatePDFHash, generateDocumentNumber, generateDocumentToken } from '@/lib/document-validator';
+import { generatePDFHash, generateDocumentNumber, generateDocumentToken, getPDFPageCount } from '@/lib/document-validator';
 import { generateQRCode } from '@/lib/qr-generator';
 import { prisma } from '@/lib/prisma';
 
@@ -37,18 +37,22 @@ export async function POST(request: NextRequest) {
     const fileHash = await generatePDFHash(buffer);
     console.log('6. Hash:', fileHash.substring(0, 20) + '...');
 
-    console.log('7. Blob\'a yükleniyor...');
+    console.log('7. Sayfa sayısı alınıyor...');
+    const pageCount = await getPDFPageCount(buffer);
+    console.log('8. Sayfa sayısı:', pageCount);
+
+    console.log('9. Blob\'a yükleniyor...');
     const fileName = `documents/${Date.now()}-${file.name}`;
     const blob = await put(fileName, buffer, {
       access: 'public',
       contentType: 'application/pdf',
     });
-    console.log('8. Blob URL:', blob.url.substring(0, 50) + '...');
+    console.log('10. Blob URL:', blob.url.substring(0, 50) + '...');
 
     // 3. Belge numarası oluştur
     const documentNumber = generateDocumentNumber();
 
-    console.log('9. Veritabanına kaydediliyor...');
+    console.log('11. Veritabanına kaydediliyor...');
     const document = await prisma.document.create({
       data: {
         title,
@@ -57,19 +61,19 @@ export async function POST(request: NextRequest) {
         fileUrl: blob.url,
         fileSize: file.size,
         fileHash,
-        pageCount: 1, // TODO: PDF.js ile sayfa sayısını al
+        pageCount,
         allowDownload,
         digitalSignature: false,
       },
     });
 
-    console.log('10. JWT token oluşturuluyor...');
+    console.log('12. JWT token oluşturuluyor...');
     const token = await generateDocumentToken(document.id, 720); // 30 gün
 
-    console.log('11. QR kod oluşturuluyor...');
+    console.log('13. QR kod oluşturuluyor...');
     const qrCodeUrl = await generateQRCode(document.id, token);
 
-    console.log('12. QR kod veritabanına kaydediliyor...');
+    console.log('14. QR kod veritabanına kaydediliyor...');
     await prisma.document.update({
       where: { id: document.id },
       data: {
@@ -78,13 +82,14 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    console.log('13. Başarılı!');
+    console.log('15. Başarılı!');
     return NextResponse.json({
       success: true,
       documentId: document.id,
       documentNumber,
       qrCodeUrl,
       fileUrl: blob.url,
+      qrToken: token, // Frontend için token da dönelim
       message: 'PDF başarıyla yüklendi',
     });
 
