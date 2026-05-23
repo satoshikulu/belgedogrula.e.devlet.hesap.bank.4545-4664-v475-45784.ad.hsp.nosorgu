@@ -1,6 +1,3 @@
-import Image from 'next/image';
-import altLogo from '@/assets/altlogo.PNG';
-
 interface LogoProps {
   className?: string;
   size?: 'sm' | 'md' | 'lg';
@@ -19,7 +16,7 @@ export default function Logo({ className = '', size = 'md', showText = true }: L
   return (
     <div className={`flex items-center gap-3 ${className}`}>
       <div className={`${containerSize} rounded-lg flex items-center justify-center shadow-md overflow-hidden`}>
-        <Image src={altLogo} alt="Logo" className="w-full h-full object-cover" />
+        <img src="/altlogo.png" alt="Logo" className="w-full h-full object-cover" />
       </div>
       {showText && (
         <div>
